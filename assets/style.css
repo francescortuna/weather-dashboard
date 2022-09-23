@@ -1,0 +1,59 @@
+:root {
+    --forecast-box: #393E41;
+    --forecast-text: #D3D0CB;
+    --search-history-box: #D3D0CB;
+}
+
+/* Universal selector */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+header {
+    width: 100%;
+    height: 90px;
+    color: #253237;
+    background-image: linear-gradient(to right, #C2DFE3, #9DB4C0, #5C6B73);
+    text-align: center;
+}
+
+h1 {
+    padding-top: 15px;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+} 
+
+#searchBar {
+    width: 25%;
+    padding: 15px;
+}
+
+#conditions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 5px;
+}
+
+#current-conditions {
+    padding: 10px;
+    border-style: solid;
+    width: 100%;
+    height: 175px;
+}
+
+.card-deck {
+    display: flex;
+}
+
+.card {
+    width: 25%;
+}
