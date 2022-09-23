@@ -49,3 +49,11 @@ main {
     width: 100%;
     height: 175px;
 }
+
+.card-deck {
+    display: flex;
+}
+
+.card {
+    width: 25%;
+}
