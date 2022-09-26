@@ -52,6 +52,7 @@ main {
 
 .card-deck {
     display: flex;
+    visibility:hidden;
 }
 
 .card {
