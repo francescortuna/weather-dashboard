@@ -1,4 +1,3 @@
-// Variables for form input
 var cityNameSearch = document.querySelector("#city-name-search");
 var zipCodeSearch = document.querySelector("#zip-code-search");
 var submitEl = document.querySelector("#search");
@@ -6,7 +5,10 @@ var cityNameEl = document.querySelector(".city-name");
 var currentConditionsEl = document.querySelector("#current-conditions");
 var forecastTitleEl = document.querySelector("#forecast-title");
 var cardDeckEl = document.querySelector(".card-deck");
+var historyEl = document.querySelector("#history");
 var apiKey = "bc7f76e26e1aeea4cf17b448e7f41d71";
+var clearBtn = document.querySelector("#clearBtn");
+var searchHistoryArray = [];
 
 // Placeholder for City Name and Date until user searches for city
 cityNameEl.textContent = "Search for a City!";
@@ -17,10 +19,38 @@ function formSubmitHandler(event) {
     
     var cityName = cityNameSearch.value.trim();
 
-    getLonLat(cityName);
+    if(cityName) {
+        getLonLat(cityName);
+        searchHistory(cityName);
+        // Resets search
+        cityNameSearch.value = "";
+    } else {
+        alert("Please enter a valid city name");
+    }
+}
 
-    // Resets search
-    cityNameSearch.value = "";
+function searchHistory(cityName) {
+    // Adds most recent search to local storage
+    searchHistoryArray.push(cityName);
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistoryArray));
+    console.log(searchHistoryArray.length);
+
+    // Shows search history
+    if(searchHistoryArray.length = 1) {
+        historyEl.style.visibility = "visible";
+        var searchHistoryList = document.createElement("ul");
+        searchHistoryList.className = "list-group list-group-flush";
+        historyEl.appendChild(searchHistoryList);
+        var searchHistoryListItem = document.createElement("li");
+        searchHistoryListItem.className = "list-group-item";
+        searchHistoryListItem.textContent = cityName;
+        searchHistoryList.appendChild(searchHistoryListItem);
+    } else {
+        var searchHistoryListItem = document.createElement("li");
+        searchHistoryListItem.className = "list-group-item";
+        searchHistoryListItem.textContent = cityName;
+        document.querySelector("#search-history").appendChild(searchHistoryListItem);
+    }
 }
 
 // First use API to get the latitude and longitude
@@ -33,7 +63,6 @@ function getLonLat(cityName) {
         return response.json();
     })
     .then(function (data) {
-        console.log(data);
         // Variables for city's latitude and longitude
         var cityLocation = {
             latitude: data.city.coord.lat,
@@ -51,7 +80,6 @@ function getCurrentConditions(cityLocation) {
         return response.json();
     })
     .then(function (data) {
-        console.log(data);
         // Creates an object containing all the variables to be used for current conditions
         var currentCityWeather = {
         name: data.city.name,
@@ -69,7 +97,6 @@ function getCurrentConditions(cityLocation) {
 }
 
 function showCurrentConditions(cityWeather) {
-    console.log(cityWeather);
     // Replaces "Search City!" with city name and adds date
     var today = moment().format("M/DD/YYYY");
     cityNameEl.textContent = cityWeather.name + " (" + today + ")";
@@ -100,8 +127,6 @@ function showCurrentConditions(cityWeather) {
 }
 
 function showFutureConditions(cityWeather) {
-    console.log(cityWeather);
-
     forecastTitleEl.textContent = "5-Day Forecast:";
     cardDeckEl.style.visibility = "visible";
 
@@ -144,4 +169,31 @@ function showFutureConditions(cityWeather) {
     }
 }
 
+function loadSearchHistory() {
+    searchHistoryArray = JSON.parse(localStorage.getItem("searchHistory"));
+
+    if(searchHistoryArray) {
+        historyEl.style.visibility = "visible";
+        var searchHistoryList = document.createElement("ul");
+        searchHistoryList.className = "list-group list-group-flush";
+        historyEl.appendChild(searchHistoryList);
+        for (var i = 0; i < searchHistoryArray.length; i++) {
+            var searchHistoryListItem = document.createElement("li");
+            searchHistoryListItem.className = "list-group-item";
+            searchHistoryListItem.textContent = searchHistoryArray[i];
+            searchHistoryList.appendChild(searchHistoryListItem);
+        }
+    } else {
+        searchHistoryArray = [];
+    }
+}
+
+function clearSearchHistory() {
+    localStorage.removeItem("searchHistory");
+    historyEl.style.visibility = "hidden";
+    searchHistoryArray = [];
+}
+
+loadSearchHistory();
 submitEl.addEventListener("click", formSubmitHandler);
+clearBtn.addEventListener("click",clearSearchHistory);
