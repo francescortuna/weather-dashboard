@@ -36,6 +36,10 @@ main {
     padding: 15px;
 }
 
+#history {
+    visibility: hidden;
+}
+
 #conditions {
     display: flex;
     flex-direction: column;
