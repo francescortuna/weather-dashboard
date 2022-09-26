@@ -4,12 +4,13 @@ var zipCodeSearch = document.querySelector("#zip-code-search");
 var submitEl = document.querySelector("#search");
 var cityNameEl = document.querySelector(".city-name");
 var currentConditionsEl = document.querySelector("#current-conditions");
-
-// Variables to use to get current/past conditions
+var forecastTitleEl = document.querySelector("#forecast-title");
+var cardDeckEl = document.querySelector(".card-deck");
 var apiKey = "bc7f76e26e1aeea4cf17b448e7f41d71";
 
 // Placeholder for City Name and Date until user searches for city
 cityNameEl.textContent = "Search for a City!";
+forecastTitleEl.textContent = "The 5-Day Forecast will show here!"
 
 function formSubmitHandler(event) {
     event.preventDefault();
@@ -52,7 +53,7 @@ function getCurrentConditions(cityLocation) {
     .then(function (data) {
         console.log(data);
         // Creates an object containing all the variables to be used for current conditions
-        var cityWeather = {
+        var currentCityWeather = {
         name: data.city.name,
         temp: data.list[0].main.temp,
         wind: data.list[0].wind.speed,
@@ -60,7 +61,10 @@ function getCurrentConditions(cityLocation) {
         icon: data.list[0].weather[0].icon
         }
 
-        showCurrentConditions(cityWeather);
+        var futureCityWeather = data.list;
+
+        showCurrentConditions(currentCityWeather);
+        showFutureConditions(futureCityWeather);
     })
 }
 
@@ -93,6 +97,51 @@ function showCurrentConditions(cityWeather) {
     var humidityEl = document.createElement("p");
     humidityEl.textContent = "Humidity: " + cityWeather.humidity + "%";
     currentConditionsEl.appendChild(humidityEl);
+}
+
+function showFutureConditions(cityWeather) {
+    console.log(cityWeather);
+
+    forecastTitleEl.textContent = "5-Day Forecast:";
+    cardDeckEl.style.visibility = "visible";
+
+    for (var i = 1; i < 6; i++) {
+        var date = moment().add(i, 'd').format("M/DD/YYYY");
+        var icon = cityWeather[i].weather[0].icon;
+        var temp = cityWeather[i].main.temp;
+        var wind = cityWeather[i].wind.speed;
+        var humidity = cityWeather[i].main.humidity
+
+        // Creates card elements to use with Bootstrap
+        var cardEl = document.createElement("div");
+        cardEl.className = "card";
+        cardDeckEl.appendChild(cardEl);
+        var cardBodyEl = document.createElement("div");
+        cardBodyEl.className = "card-body";
+        cardEl.appendChild(cardBodyEl);
+        // Displays date
+        var cardTitleEl = document.createElement("h5");
+        cardTitleEl.className = "card-title";
+        cardTitleEl.textContent = date;
+        cardBodyEl.appendChild(cardTitleEl);
+        // Displays icon
+        var weatherIconEl = document.createElement('img');
+        weatherIconEl.src = "http://openweathermap.org/img/wn/"+icon+"@2x.png";
+        cardBodyEl.appendChild(weatherIconEl);
+        // Displays temp, wind, humidity
+        var cardTextEl = document.createElement("div");
+        cardTextEl.className = "card-text";
+        cardBodyEl.appendChild(cardTextEl);
+        var tempEl = document.createElement("p");
+        tempEl.textContent = "Temperature: " + temp + "°F";
+        cardTextEl.appendChild(tempEl);
+        var windEl = document.createElement("p");
+        windEl.textContent = "Wind: " + wind + " MPH";
+        cardTextEl.appendChild(windEl);
+        var humidityEl = document.createElement("p");
+        humidityEl.textContent = "Humidity: " + humidity + "%";
+        cardTextEl.appendChild(humidityEl);
+    }
 }
 
 submitEl.addEventListener("click", formSubmitHandler);
