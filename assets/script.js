@@ -57,7 +57,7 @@ function getCurrentConditions(cityLocation) {
         temp: data.list[0].main.temp,
         wind: data.list[0].wind.speed,
         humidity: data.list[0].main.humidity,
-        weatherIcon: data.list[0].weather[0].icon
+        icon: data.list[0].weather[0].icon
         }
 
         showCurrentConditions(cityWeather);
@@ -66,9 +66,16 @@ function getCurrentConditions(cityLocation) {
 
 function showCurrentConditions(cityWeather) {
     console.log(cityWeather);
-    // Replaces "Search City!" with city name
-    cityNameEl.textContent = cityWeather.name;
-    
+    // Replaces "Search City!" with city name and adds date
+    var today = moment().format("M/DD/YYYY");
+    cityNameEl.textContent = cityWeather.name + " (" + today + ")";
+
+    // Adds icon
+    var weatherIconEl = document.createElement('img');
+    weatherIconEl.src = "http://openweathermap.org/img/wn/"+cityWeather.icon+"@2x.png";
+    weatherIconEl.setAttribute("height","45px")
+    cityNameEl.appendChild(weatherIconEl);
+
     // Takes out the default text of "The temperature, wind speed, and humidity will be shown here!"
     document.querySelector("#default").remove();
 
