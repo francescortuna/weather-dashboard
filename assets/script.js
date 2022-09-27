@@ -7,6 +7,7 @@ var historyCardEl = document.querySelector("#history-card");
 var historyEl = document.querySelector("#history")
 var apiKey = "bc7f76e26e1aeea4cf17b448e7f41d71";
 var clearBtn = document.querySelector("#clearBtn");
+var searchHistoryName = document.querySelector(".list-group-item");
 
 // Empty search history array
 var searchHistoryArray = [];
@@ -37,7 +38,7 @@ function formSubmitHandler(event) {
     // Checks if city name is valid
     if(cityName) {
         // Adds city name to search history array and resets search value
-        searchHistoryArray.push(cityName);
+        searchHistoryArray.unshift(cityName);
         cityNameSearch.value = "";
 
         storeHistoryArray();
@@ -70,6 +71,8 @@ function renderSearchHistory() {
             var searchHistoryListItem = document.createElement("li");
             searchHistoryListItem.className = "list-group-item";
             searchHistoryListItem.textContent = searchHistoryArray[i];
+            searchHistoryListItem.dataset.name = searchHistoryArray[i];
+            searchHistoryListItem.dataset.index = i;
             searchHistoryList.appendChild(searchHistoryListItem);
         }
 }
@@ -195,3 +198,21 @@ function clearSearchHistory() {
 init();
 submitEl.addEventListener("click", formSubmitHandler);
 clearBtn.addEventListener("click",clearSearchHistory);
+historyCardEl.addEventListener("click", function(event) {
+    var element = event.target;
+
+    // Checks if element is a name from the search history
+    if(element.matches(".list-group-item") === true) {
+        // Gets name of clicked name
+        var name = element.getAttribute("data-name");
+
+        // Removes city name from its position in array and pushes it to top
+        var index = element.getAttribute("data-index");
+        searchHistoryArray.splice(index, 1);
+        searchHistoryArray.unshift(name);
+
+        retrieveConditions(name);
+        storeHistoryArray();
+        renderSearchHistory();
+    }
+});
