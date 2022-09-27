@@ -14,23 +14,27 @@ var searchHistoryArray = [];
 // Placeholder for City Name and Date until user searches for city
 forecastTitleEl.textContent = "The 5-Day Forecast will show here!"
 
+// Initialized on page reload
 function init() {
     // Get stored search history array from local storage
     var storedSearchHistory = JSON.parse(localStorage.getItem("searchHistory"));
 
-    // Updates search history array if there was a stored search history from local storage
+    // Updates search history array if there was a stored search history from local storage and renders it
     if (storedSearchHistory !== null) {
         searchHistoryArray = storedSearchHistory
-    }
 
-    renderSearchHistory();
+        renderSearchHistory();
+    }
 }
 
+// When search button is  clicked
 function formSubmitHandler(event) {
     event.preventDefault();
     
+    // Grabs city name from user input
     var cityName = cityNameSearch.value.trim();
 
+    // Checks if city name is valid
     if(cityName) {
         // Adds city name to search history array and resets search value
         searchHistoryArray.push(cityName);
@@ -50,13 +54,18 @@ function storeHistoryArray() {
     localStorage.setItem("searchHistory", JSON.stringify(searchHistoryArray));
 }
 
+// Renders search history to page
 function renderSearchHistory() {
+    // Resets search history element
     historyEl.innerHTML = "";
 
+    // Makes search history visible
     historyCardEl.style.visibility = "visible";
+        // Adds ul element for search history list items
         var searchHistoryList = document.createElement("ul");
         searchHistoryList.className = "list-group list-group-flush";
         historyEl.appendChild(searchHistoryList);
+        // Goes through search history array length and adds each array item as list item on page
         for (var i = 0; i < searchHistoryArray.length; i++) {
             var searchHistoryListItem = document.createElement("li");
             searchHistoryListItem.className = "list-group-item";

@@ -25,7 +25,7 @@
       <!-- Side element consitsting of search form and search history -->
       <div id="searchBar">
         <h2>Search by</h2>
-        <!-- Search by city name -->
+        <!-- Input form where user can search by city name -->
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">City Name</label>
             <input type="email" class="form-control" id="city-name-search" placeholder="Enter City Name">
@@ -33,16 +33,22 @@
           <div class="col-auto">
             <button type="submit" id="search" class="btn btn-primary mb-3">Search</button>
           </div>
+          <!-- Search history -->
           <div id="history-card">
             <h3>Search history</h3>
+            <!-- Trash icon to clear search history -->
             <ion-icon name="trash-outline" id="clearBtn"></ion-icon>
+            <!-- Search history items -->
             <div id="history"></div>
           </div>
       </div>
+      <!-- Main element where current and future conditions are -->
       <div id="conditions">
+        <!-- Current conditions -->
         <div id="current-conditions">
           <h2 class="city-name">Search for a city!</h2>
         </div>
+        <!-- 5-day forecast -->
         <div id="past-conditions">
           <h3 id="forecast-title"></h3>
           <div class="card-deck"></div>
@@ -54,7 +60,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
     <!-- Moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <!-- Open Source Icon Pack -->
+    <!-- Open Source Icon Pack for trash icon -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Javascript File -->
