@@ -12,6 +12,7 @@
     font-family: 'Roboto Condensed', sans-serif !important;
 }
 
+/* Navbar */
 header {
     width: 100%;
     height: 90px;
@@ -26,6 +27,7 @@ h1 {
     font-weight: bold;
 }
 
+/* Makes body a flexbox */
 main {
     display: flex;
     flex-direction: row;
@@ -36,6 +38,7 @@ main {
     padding: 15px;
 }
 
+/* Hides search history until activated in JavaScript */
 #history-card {
     visibility: hidden;
 }
@@ -54,6 +57,7 @@ main {
     height: 175px;
 }
 
+/* Makes forecast conditions hidden until activated in JavaScript */
 .card-deck {
     display: flex;
     visibility:hidden;
