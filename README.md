@@ -14,7 +14,7 @@ N/A
 
 Here is the link to the deployed website: https://francescortuna.github.io/weather-dashboard/
 
-Screenshot:
+Screenshot:  
 ![alt text](assets/Weather%20Dashboard.gif)
 
 ## Credits
